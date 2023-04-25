@@ -2,10 +2,10 @@
   "name": "crmgraphqlcurso",
   "version": "1.0.0",
   "description": "Curso de GQL",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon ./src/index.js"
   },
   "author": "Kevin Echeverri",
   "license": "ISC",
