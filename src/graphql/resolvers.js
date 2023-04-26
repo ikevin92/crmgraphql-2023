@@ -2,6 +2,8 @@ const {
   nuevoProducto,
   obtenerProductos,
   obtenerProducto,
+  actualizarProducto,
+  eliminarProducto,
 } = require('../controllers/producto');
 
 const {
@@ -25,6 +27,8 @@ const resolvers = {
     autenticarUsuario,
     //Producto
     nuevoProducto,
+    actualizarProducto,
+    eliminarProducto,
   },
 };
 
