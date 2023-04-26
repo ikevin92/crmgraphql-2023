@@ -1,4 +1,4 @@
-const Producto = require('../models/Producto');
+import Producto from '../models/Producto.js';
 
 const nuevoProducto = async (_, { input }) => {
   try {
@@ -17,7 +17,7 @@ const nuevoProducto = async (_, { input }) => {
 
 const obtenerProductos = async () => {
   try {
-    const productos = await Producto.find({});
+    const productos = await find({});
 
     return productos;
   } catch (error) {
@@ -79,7 +79,7 @@ const eliminarProducto = async (_, { id }) => {
   }
 };
 
-module.exports = {
+export {
   // Mutation
   nuevoProducto,
   actualizarProducto,

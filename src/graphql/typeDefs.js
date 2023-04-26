@@ -1,6 +1,4 @@
-const { gql } = require('apollo-server');
-
-const typeDefs = gql`
+const typeDefs = `#graphql
   #Types
   type Usuario {
     id: ID
@@ -93,4 +91,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+export { typeDefs };

@@ -1,22 +1,22 @@
-const {
+import {
   nuevoProducto,
   obtenerProductos,
   obtenerProducto,
   actualizarProducto,
   eliminarProducto,
-} = require('../controllers/producto');
+} from '../controllers/producto.js';
 
-const {
+import {
   crearUsuario,
   autenticarUsuario,
   obtenerUsuario,
-} = require('../controllers/usuario');
+} from '../controllers/usuario.js';
 
-const {
+import {
   nuevoCliente,
   obtenerClientes,
   obtenerClientesVendedor,
-} = require('../controllers/cliente');
+} from '../controllers/cliente.js';
 
 // resolvers
 const resolvers = {
@@ -43,4 +43,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export { resolvers };

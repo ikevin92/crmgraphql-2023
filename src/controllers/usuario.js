@@ -1,7 +1,8 @@
-const bcrypt = require('bcryptjs');
-const authHelpers = require('../helpers/auth');
-const Usuario = require('../models/Usuario');
+import bcryptjs from 'bcryptjs';
+import authHelpers from '../helpers/auth.js';
+import Usuario from '../models/Usuario.js';
 
+const { genSalt, hash, compare } = bcryptjs;
 const { crearToken, leerToken } = authHelpers;
 
 const crearUsuario = async (_, { input }) => {
@@ -14,8 +15,8 @@ const crearUsuario = async (_, { input }) => {
       throw new Error('El usuario esta registrado en la base de datos');
 
     // Hash  password
-    const salt = await bcrypt.genSalt(10);
-    input.password = await bcrypt.hash(password, salt);
+    const salt = await genSalt(10);
+    input.password = await hash(password, salt);
 
     // guardar en la base de datos
     const usuario = new Usuario(input);
@@ -37,10 +38,7 @@ const autenticarUsuario = async (_, { input }) => {
   if (!existeUsuario) throw new Error('El usuario no existe');
 
   // revisar si el password es correcto
-  const passwordCorrecto = await bcrypt.compare(
-    password,
-    existeUsuario.password,
-  );
+  const passwordCorrecto = await compare(password, existeUsuario.password);
 
   if (!passwordCorrecto) throw new Error('El password es incorrecto');
 
@@ -66,7 +64,7 @@ const obtenerUsuario = async (_, { token }) => {
   }
 };
 
-module.exports = {
+export {
   // Mutation
   crearUsuario,
   autenticarUsuario,
