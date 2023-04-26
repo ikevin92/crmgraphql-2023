@@ -12,6 +12,12 @@ const {
   obtenerUsuario,
 } = require('../controllers/usuario');
 
+const {
+  nuevoCliente,
+  obtenerClientes,
+  obtenerClientesVendedor,
+} = require('../controllers/cliente');
+
 // resolvers
 const resolvers = {
   Query: {
@@ -20,6 +26,9 @@ const resolvers = {
     //Productos
     obtenerProductos,
     obtenerProducto,
+    // Clientes
+    obtenerClientes,
+    obtenerClientesVendedor,
   },
   Mutation: {
     //Usuario
@@ -29,6 +38,8 @@ const resolvers = {
     nuevoProducto,
     actualizarProducto,
     eliminarProducto,
+    //Cliente
+    nuevoCliente,
   },
 };
 
