@@ -67,7 +67,9 @@ const obtenerUsuario = async (_, { token }) => {
 };
 
 module.exports = {
+  // Mutation
   crearUsuario,
   autenticarUsuario,
+  // Query
   obtenerUsuario,
 };
