@@ -2,21 +2,16 @@
   "name": "crmgraphqlcurso",
   "version": "1.0.0",
   "description": "Curso de GQL",
-  "main": "index.js",
-  "type": "module",
-  "engineStrict": true,
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "main": "./src/index.js",
   "scripts": {
-    "dev": "nodemon src",
-    "start": "node src"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
-  "keywords": [],
   "author": "Kevin Echeverri",
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.7.0",
+    "apollo-server": "^3.12.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",

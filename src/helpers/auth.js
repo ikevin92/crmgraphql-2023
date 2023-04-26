@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-dotenv.config({ path: 'variables.env' });
+const { config } = dotenv;
+config({ path: 'variables.env' });
 
 const crearToken = ({ usuario, expiresIn }) => {
   const { id, email, nombre, apellido } = usuario;
@@ -15,7 +16,7 @@ const leerToken = (token) => {
   return jwt.verify(token, process.env.SECRETA);
 };
 
-module.exports = {
+export default {
   crearToken,
   leerToken,
 };

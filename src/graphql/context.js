@@ -1,23 +1,24 @@
-const { leerToken } = require('../helpers/auth');
+import authHelper from '../helpers/auth.js';
 
-const obtenerUsuario = ({ req }) => {
-  console.log('obtener usuario');
-  const token = req.headers['authorization'] || '';
-  if (token) {
-    try {
-      // const usuario = leerToken(token.replace('Bearer ', ''));
-      const usuario = leerToken(token);
-      return {
-        usuario,
-      };
-    } catch (error) {
-      console.log('hubo un error en el context', error);
-    }
+const { leerToken } = authHelper;
+
+const obtenerUsuarioByToken = async (req) => {
+  try {
+    let usuario = {};
+    const token = req.headers['authorization'] || '';
+    if (!token) return usuario;
+    // const usuario = leerToken(token.replace('Bearer ', ''));
+    usuario = leerToken(token);
+    return usuario;
+  } catch (error) {
+    console.log('hubo un error en el context', error);
+    return {};
   }
 };
 
-// const context = {
-//   ...obtenerUsuario,
-// };
+const context = async ({ req }) => {
+  const usuario = await obtenerUsuarioByToken(req);
+  return { usuario };
+};
 
-module.exports = { obtenerUsuario };
+export { context };

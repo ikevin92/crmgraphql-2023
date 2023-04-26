@@ -1,4 +1,4 @@
-const Cliente = require('../models/Cliente');
+import Cliente from '../models/Cliente.js';
 
 const nuevoCliente = async (_, { input }, ctx) => {
   try {
@@ -49,8 +49,4 @@ const obtenerClientesVendedor = async (_, {}, ctx) => {
   }
 };
 
-module.exports = {
-  nuevoCliente,
-  obtenerClientes,
-  obtenerClientesVendedor,
-};
+export { nuevoCliente, obtenerClientes, obtenerClientesVendedor };
