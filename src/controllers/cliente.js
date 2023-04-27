@@ -49,4 +49,21 @@ const obtenerClientesVendedor = async (_, {}, ctx) => {
   }
 };
 
-export { nuevoCliente, obtenerClientes, obtenerClientesVendedor };
+const obtenerCliente = async (_, { id }, ctx) => {
+  const cliente = await Cliente.findById(id);
+  if (!cliente) throw new Error('Cliente no encontrado');
+
+  const vendedor = ctx.usuario.id.toString();
+  if (cliente.vendedor.toString() !== vendedor) {
+    throw new Error('No tienes las credenciales');
+  }
+
+  return cliente;
+};
+
+export {
+  nuevoCliente,
+  obtenerClientes,
+  obtenerClientesVendedor,
+  obtenerCliente,
+};
