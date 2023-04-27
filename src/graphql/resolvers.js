@@ -16,6 +16,7 @@ import {
   nuevoCliente,
   obtenerClientes,
   obtenerClientesVendedor,
+  obtenerCliente,
 } from '../controllers/cliente.js';
 
 // resolvers
@@ -29,6 +30,7 @@ const resolvers = {
     // Clientes
     obtenerClientes,
     obtenerClientesVendedor,
+    obtenerCliente,
   },
   Mutation: {
     //Usuario

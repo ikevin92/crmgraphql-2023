@@ -75,7 +75,7 @@ const typeDefs = `#graphql
     # Clientes
     obtenerClientes: [Cliente]
     obtenerClientesVendedor: [Cliente]
-    obtenerCliente: Cliente
+    obtenerCliente(id: ID!): Cliente
   }
 
   type Mutation {
