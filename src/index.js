@@ -3,7 +3,6 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { conectarDB } from './config/db.js';
 import { typeDefs, resolvers, context } from './graphql/schema.js';
 
-console.log('index');
 // conectar a la base de datos
 conectarDB();
 

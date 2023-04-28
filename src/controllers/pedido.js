@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
-import Pedido from '../models/Pedido.js';
 import Cliente from '../models/Cliente.js';
+import Pedido from '../models/Pedido.js';
 import Producto from '../models/Producto.js';
 
 const nuevoPedido = async (_, { input }, ctx) => {
@@ -52,9 +52,9 @@ const nuevoPedido = async (_, { input }, ctx) => {
 
 const obtenerPedidos = async () => {
   try {
-    const pedidos = await Pedido.find({})
-      .populate('cliente')
-      .populate('vendedor');
+    const pedidos = await Pedido.find({});
+    // .populate('cliente')
+    // .populate('vendedor');
 
     return pedidos;
   } catch (error) {
@@ -66,4 +66,20 @@ const obtenerPedidos = async () => {
   }
 };
 
-export { nuevoPedido, obtenerPedidos };
+// eslint-disable-next-line no-empty-pattern
+const obtenerPedidosVendedor = (_, {}, ctx) => {
+  try {
+    const pedidos = Pedido.find({ vendedor: ctx.usuario.id });
+    // .populate('cliente');
+
+    return pedidos;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudieron obtener los pedidos. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+export { nuevoPedido, obtenerPedidos, obtenerPedidosVendedor };

@@ -11,6 +11,7 @@ const queries = `#graphql
     obtenerCliente(id: ID!): Cliente
     # Pedidos
     obtenerPedidos: [Pedido]
+    obtenerPedidosVendedor: [Pedido]
   }
 `;
 
