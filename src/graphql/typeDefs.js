@@ -33,6 +33,28 @@ const typeDefs = `#graphql
     updatedAt: String
   }
 
+  type Pedidos {
+    id: ID
+    pedido: [PedidoGrupo]
+    total: Float
+    cliente: Cliente
+    vendedor: ID
+    estado: EstadoPedido
+    createdAt: String
+    updatedAt: String
+  }
+
+  type PedidoGrupo {
+    id: ID
+    cantidad: Int
+  }
+
+  enum EstadoPedido {
+    PENDIENTE
+    COMPLETADO
+    CANCELADO
+  }
+
   type Token {
     token: String
   }
@@ -64,6 +86,18 @@ const typeDefs = `#graphql
     telefono: String
   }
 
+  input PedidoProductoInput {
+    id: ID
+    cantidad: Int
+  }
+
+  input PedidoInput {
+    pedido: [PedidoProductoInput]
+    total: Float!
+    cliente: ID!
+    estado: EstadoPedido
+  }
+
   # Query - Mutations
 
   type Query {
@@ -90,6 +124,8 @@ const typeDefs = `#graphql
     nuevoCliente(input: ClienteInput): Cliente
     actualizarCliente(id: ID!, input: ClienteInput): Cliente
     eliminarCliente(id: ID!): String
+    # Pedidos
+    nuevoPedido(input: PedidoInput): Pedidos
   }
 `;
 
