@@ -28,6 +28,10 @@ const nuevoPedido = async (_, { input }, ctx) => {
           `El articulo ${producto.nombre} excede la cantidad disponible`,
         );
       }
+
+      // Restar la cantidad a lo disponible
+      producto.existencia = producto.existencia - articulo.cantidad;
+      await producto.save();
     }
 
     const nuevoPedido = new Pedido(input);
