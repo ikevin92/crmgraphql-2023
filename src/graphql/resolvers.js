@@ -21,6 +21,8 @@ import {
   eliminarCliente,
 } from '../controllers/cliente.js';
 
+import { nuevoPedido } from '../controllers/pedido.js';
+
 // resolvers
 const resolvers = {
   Query: {
@@ -46,6 +48,8 @@ const resolvers = {
     nuevoCliente,
     actualizarCliente,
     eliminarCliente,
+    // Pedido
+    nuevoPedido,
   },
 };
 
