@@ -17,6 +17,8 @@ import {
   obtenerClientes,
   obtenerClientesVendedor,
   obtenerCliente,
+  actualizarCliente,
+  eliminarCliente,
 } from '../controllers/cliente.js';
 
 // resolvers
@@ -42,6 +44,8 @@ const resolvers = {
     eliminarProducto,
     //Cliente
     nuevoCliente,
+    actualizarCliente,
+    eliminarCliente,
   },
 };
 

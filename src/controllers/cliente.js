@@ -1,3 +1,4 @@
+import { GraphQLError } from 'graphql';
 import Cliente from '../models/Cliente.js';
 
 const nuevoCliente = async (_, { input }, ctx) => {
@@ -5,7 +6,7 @@ const nuevoCliente = async (_, { input }, ctx) => {
     const { email } = input;
     const cliente = await Cliente.findOne({ email });
 
-    if (cliente) throw new Error('El cliente ya existe');
+    if (cliente) throw new GraphQLError('El cliente ya existe');
 
     const nuevoCliente = new Cliente(input);
     nuevoCliente.vendedor = ctx.usuario.id;
@@ -14,7 +15,7 @@ const nuevoCliente = async (_, { input }, ctx) => {
     return resultado;
   } catch (error) {
     console.log(error);
-    throw new Error(
+    throw new GraphQLError(
       'No se pudo crear el cliente. Error en la base de datos: ' +
         error.message,
     );
@@ -27,7 +28,7 @@ const obtenerClientes = async () => {
     return clientes;
   } catch (error) {
     console.log(error);
-    throw new Error(
+    throw new GraphQLError(
       'No se pudo obtener los clientes. Error en la base de datos: ' +
         error.message,
     );
@@ -42,7 +43,7 @@ const obtenerClientesVendedor = async (_, {}, ctx) => {
     return clientes;
   } catch (error) {
     console.log(error);
-    throw new Error(
+    throw new GraphQLError(
       'No se pudo obtener los clientes. Error en la base de datos: ' +
         error.message,
     );
@@ -50,15 +51,66 @@ const obtenerClientesVendedor = async (_, {}, ctx) => {
 };
 
 const obtenerCliente = async (_, { id }, ctx) => {
-  const cliente = await Cliente.findById(id);
-  if (!cliente) throw new Error('Cliente no encontrado');
+  try {
+    const cliente = await Cliente.findById(id);
+    if (!cliente) throw new GraphQLError('Cliente no encontrado');
 
-  const vendedor = ctx.usuario.id.toString();
-  if (cliente.vendedor.toString() !== vendedor) {
-    throw new Error('No tienes las credenciales');
+    const vendedor = ctx.usuario.id.toString();
+    if (cliente.vendedor.toString() !== vendedor) {
+      throw new GraphQLError('No tienes las credenciales');
+    }
+
+    return cliente;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo obtener el cliente. Error en la base de datos: ' +
+        error.message,
+    );
   }
+};
 
-  return cliente;
+const actualizarCliente = async (_, { id, input }, ctx) => {
+  try {
+    let cliente = await Cliente.findById(id);
+    if (!cliente) throw new GraphQLError('Cliente no encontrado');
+
+    const vendedor = ctx.usuario.id.toString();
+    if (cliente.vendedor.toString() !== vendedor) {
+      throw new GraphQLError('No tienes las credenciales');
+    }
+
+    cliente = await Cliente.findOneAndUpdate({ _id: id }, input, { new: true });
+
+    return cliente;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo actualizar el cliente. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+const eliminarCliente = async (_, { id }, ctx) => {
+  try {
+    let cliente = await Cliente.findById(id);
+    if (!cliente) throw new GraphQLError('Cliente no encontrado');
+
+    const vendedor = ctx.usuario.id.toString();
+    if (cliente.vendedor.toString() !== vendedor) {
+      throw new GraphQLError('No tienes las credenciales');
+    }
+
+    await Cliente.findOneAndDelete({ _id: id });
+    return 'Cliente eliminado';
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo eliminar el cliente. Error en la base de datos: ' +
+        error.message,
+    );
+  }
 };
 
 export {
@@ -66,4 +118,6 @@ export {
   obtenerClientes,
   obtenerClientesVendedor,
   obtenerCliente,
+  actualizarCliente,
+  eliminarCliente,
 };

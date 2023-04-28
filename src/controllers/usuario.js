@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import authHelpers from '../helpers/auth.js';
 import Usuario from '../models/Usuario.js';
+import { GraphQLError } from 'graphql';
 
 const { genSalt, hash, compare } = bcryptjs;
 const { crearToken, leerToken } = authHelpers;
@@ -55,12 +56,18 @@ const obtenerUsuario = async (_, { token }) => {
   try {
     const usuarioToken = leerToken(token);
     const usuario = await Usuario.findById(usuarioToken.id);
-    if (!usuario) throw new Error('El usuario no existe');
+    if (!usuario)
+      throw new GraphQLError('User is not authenticated', {
+        extensions: {
+          code: 'UNAUTHENTICATED',
+          http: { status: 401 },
+        },
+      });
 
     return usuario;
   } catch (error) {
     console.log(error);
-    throw new Error('Ocurrió un error', error);
+    throw new GraphQLError('Ocurrió un error');
   }
 };
 
