@@ -21,7 +21,7 @@ import {
   eliminarCliente,
 } from '../controllers/cliente.js';
 
-import { nuevoPedido } from '../controllers/pedido.js';
+import { nuevoPedido, obtenerPedidos } from '../controllers/pedido.js';
 
 // resolvers
 const resolvers = {
@@ -35,6 +35,8 @@ const resolvers = {
     obtenerClientes,
     obtenerClientesVendedor,
     obtenerCliente,
+    // Pedidos
+    obtenerPedidos,
   },
   Mutation: {
     //Usuario

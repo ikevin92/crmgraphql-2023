@@ -50,4 +50,20 @@ const nuevoPedido = async (_, { input }, ctx) => {
   }
 };
 
-export { nuevoPedido };
+const obtenerPedidos = async () => {
+  try {
+    const pedidos = await Pedido.find({})
+      .populate('cliente')
+      .populate('vendedor');
+
+    return pedidos;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudieron obtener los pedidos. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+export { nuevoPedido, obtenerPedidos };
