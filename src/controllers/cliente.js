@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql';
 import Cliente from '../models/Cliente.js';
+import Pedido from '../models/Pedido.js';
 
 const nuevoCliente = async (_, { input }, ctx) => {
   try {
@@ -113,10 +114,38 @@ const eliminarCliente = async (_, { id }, ctx) => {
   }
 };
 
+const mejoresClientes = async () => {
+  try {
+    const clientes = await Pedido.aggregate([
+      { $match: { estado: 'COMPLETADO' } },
+      { $group: { _id: '$cliente', total: { $sum: '$total' } } },
+      {
+        $lookup: {
+          from: 'clientes',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'cliente',
+        },
+      },
+      { $limit: 10 },
+      { $sort: { total: -1 } },
+    ]);
+
+    return clientes;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo obtener los clientes. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
 const queries = {
   obtenerClientes,
   obtenerClientesVendedor,
   obtenerCliente,
+  mejoresClientes,
 };
 
 const mutations = {

@@ -48,6 +48,16 @@ const types = `#graphql
     cantidad: Int
   }
 
+  type TopCliente {
+    total: Float
+    cliente: [Cliente]
+  }
+
+  type TopVendedor {
+    total: Float
+    vendedor: [Usuario]
+  }
+
   enum EstadoPedido {
     PENDIENTE
     COMPLETADO
