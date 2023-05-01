@@ -13,6 +13,11 @@ const queries = `#graphql
     obtenerPedidos: [Pedido]
     obtenerPedidosVendedor: [Pedido]
     obtenerPedido(id: ID!): Pedido
+    obtenerPedidosEstado(estado: String!): [Pedido]
+    # Busquedas Avanzadas
+    mejoresClientes: [TopCliente]
+    mejoresVendedores: [TopVendedor]
+    buscarProducto(texto: String!): [Producto]
   }
 `;
 

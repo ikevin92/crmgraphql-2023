@@ -22,6 +22,7 @@ const PedidosSchema = new Schema(
     },
     estado: {
       type: String,
+      enum: ['PENDIENTE', 'COMPLETADO', 'CANCELADO'],
       default: 'PENDIENTE',
     },
   },

@@ -158,15 +158,52 @@ const actualizarPedido = async (_, { id, input }, ctx) => {
   }
 };
 
+const eliminarPedido = async (_, { id }, ctx) => {
+  try {
+    const existePedido = await Pedido.findById(id);
+    if (!existePedido) throw new GraphQLError('Pedido no encontrado');
+
+    // Solo quien lo creo puede verlo
+    if (existePedido.vendedor.toString() !== ctx.usuario.id)
+      throw new GraphQLError('No tienes las credenciales');
+
+    // Eliminar de la base de datos
+    await Pedido.findOneAndDelete({ _id: id });
+
+    return 'Pedido eliminado';
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo eliminar el pedido. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+const obtenerPedidosEstado = (_, { estado }, ctx) => {
+  try {
+    const pedidos = Pedido.find({ vendedor: ctx.usuario.id, estado });
+    return pedidos;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudieron obtener los pedidos. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
 const mutations = {
   nuevoPedido,
   actualizarPedido,
+  eliminarPedido,
 };
 
 const queries = {
   obtenerPedidos,
   obtenerPedidosVendedor,
   obtenerPedido,
+  obtenerPedidosEstado,
 };
 
 export { mutations, queries };

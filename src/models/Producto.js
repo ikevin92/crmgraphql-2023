@@ -28,6 +28,8 @@ const ProductosSchema = new Schema(
   },
 );
 
+ProductosSchema.index({ nombre: 'text' });
+
 const Producto = model('Producto', ProductosSchema);
 
 export default Producto;
