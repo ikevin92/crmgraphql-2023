@@ -1,9 +1,7 @@
-const { ApolloServer } = require('apollo-server');
-
-const resolvers = require('./graphql/resolvers');
-const typeDefs = require('./graphql/typeDefs');
-const { obtenerUsuario } = require('./graphql/context');
-const conectarDB = require('./config/db');
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { conectarDB } from './config/db.js';
+import { typeDefs, resolvers, context } from './graphql/schema.js';
 
 // conectar a la base de datos
 conectarDB();
@@ -12,10 +10,13 @@ conectarDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: obtenerUsuario,
 });
 
 // arrancar el servidor
-server.listen().then(({ url }) => {
-  console.log(`Servidor listo en la URL ${url}`);
+const { url } = await startStandaloneServer(server, {
+  context: context,
+  // context: async ({ req }) => ({ token: req.headers.token }),
+  listen: { port: 4000 },
 });
+
+console.log(`🚀  Server ready at: ${url}`);

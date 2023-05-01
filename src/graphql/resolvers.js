@@ -1,46 +1,45 @@
-const {
-  nuevoProducto,
-  obtenerProductos,
-  obtenerProducto,
-  actualizarProducto,
-  eliminarProducto,
-} = require('../controllers/producto');
+import {
+  mutations as mutationProducto,
+  queries as queryProducto,
+} from '../controllers/producto.js';
 
-const {
-  crearUsuario,
-  autenticarUsuario,
-  obtenerUsuario,
-} = require('../controllers/usuario');
+import {
+  mutations as mutationUsuario,
+  queries as queryUsuario,
+} from '../controllers/usuario.js';
 
-const {
-  nuevoCliente,
-  obtenerClientes,
-  obtenerClientesVendedor,
-} = require('../controllers/cliente');
+import {
+  mutations as mutationCiente,
+  queries as queryCliente,
+} from '../controllers/cliente.js';
+
+import {
+  mutations as mutationPedido,
+  queries as queryPedido,
+} from '../controllers/pedido.js';
 
 // resolvers
 const resolvers = {
   Query: {
     // Usuarios
-    obtenerUsuario,
+    ...queryUsuario,
     //Productos
-    obtenerProductos,
-    obtenerProducto,
+    ...queryProducto,
     // Clientes
-    obtenerClientes,
-    obtenerClientesVendedor,
+    ...queryCliente,
+    // Pedidos
+    ...queryPedido,
   },
   Mutation: {
     //Usuario
-    crearUsuario,
-    autenticarUsuario,
+    ...mutationUsuario,
     //Producto
-    nuevoProducto,
-    actualizarProducto,
-    eliminarProducto,
+    ...mutationProducto,
     //Cliente
-    nuevoCliente,
+    ...mutationCiente,
+    // Pedido
+    ...mutationPedido,
   },
 };
 
-module.exports = resolvers;
+export { resolvers };
