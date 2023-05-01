@@ -113,11 +113,16 @@ const eliminarCliente = async (_, { id }, ctx) => {
   }
 };
 
-export {
-  nuevoCliente,
+const queries = {
   obtenerClientes,
   obtenerClientesVendedor,
   obtenerCliente,
+};
+
+const mutations = {
+  nuevoCliente,
   actualizarCliente,
   eliminarCliente,
 };
+
+export { mutations, queries };

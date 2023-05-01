@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
+import { GraphQLError } from 'graphql';
 import authHelpers from '../helpers/auth.js';
 import Usuario from '../models/Usuario.js';
-import { GraphQLError } from 'graphql';
 
 const { genSalt, hash, compare } = bcryptjs;
 const { crearToken, leerToken } = authHelpers;
@@ -71,10 +71,13 @@ const obtenerUsuario = async (_, { token }) => {
   }
 };
 
-export {
-  // Mutation
-  crearUsuario,
-  autenticarUsuario,
-  // Query
+const queries = {
   obtenerUsuario,
 };
+
+const mutations = {
+  crearUsuario,
+  autenticarUsuario,
+};
+
+export { mutations, queries };

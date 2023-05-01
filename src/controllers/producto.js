@@ -79,12 +79,15 @@ const eliminarProducto = async (_, { id }) => {
   }
 };
 
-export {
-  // Mutation
+const mutations = {
   nuevoProducto,
   actualizarProducto,
   eliminarProducto,
-  // Query
+};
+
+const queries = {
   obtenerProductos,
   obtenerProducto,
 };
+
+export { mutations, queries };
