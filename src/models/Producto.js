@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const ProductosSchema = new mongoose.Schema(
+const ProductosSchema = new Schema(
   {
     nombre: {
       type: String,
@@ -28,6 +28,8 @@ const ProductosSchema = new mongoose.Schema(
   },
 );
 
-const Producto = mongoose.model('Producto', ProductosSchema);
+ProductosSchema.index({ nombre: 'text' });
 
-module.exports = Producto;
+const Producto = model('Producto', ProductosSchema);
+
+export default Producto;

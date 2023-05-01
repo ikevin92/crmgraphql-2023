@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+import mongoose from 'mongoose';
+import { config } from 'dotenv';
 
-dotenv.config({ path: 'variables.env' });
+config({ path: 'variables.env' });
 
 const conectarDB = async () => {
   try {
@@ -16,4 +16,4 @@ const conectarDB = async () => {
   }
 };
 
-module.exports = conectarDB;
+export { conectarDB };
