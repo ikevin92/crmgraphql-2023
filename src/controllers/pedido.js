@@ -67,9 +67,9 @@ const obtenerPedidos = async () => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const obtenerPedidosVendedor = (_, {}, ctx) => {
+const obtenerPedidosVendedor = async (_, {}, ctx) => {
   try {
-    const pedidos = Pedido.find({ vendedor: ctx.usuario.id });
+    const pedidos = await Pedido.find({ vendedor: ctx.usuario.id });
     // .populate('cliente');
 
     return pedidos;
@@ -82,4 +82,91 @@ const obtenerPedidosVendedor = (_, {}, ctx) => {
   }
 };
 
-export { nuevoPedido, obtenerPedidos, obtenerPedidosVendedor };
+const obtenerPedido = async (_, { id }, ctx) => {
+  try {
+    const pedido = await Pedido.findById(id);
+    // .populate('cliente')
+    // .populate('vendedor');
+
+    if (!pedido) throw new GraphQLError('Pedido no encontrado');
+
+    // Solo quien lo creo puede verlo
+    if (pedido.vendedor.toString() !== ctx.usuario.id) {
+      throw new GraphQLError('No tienes las credenciales');
+    }
+
+    return pedido;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo obtener el pedido. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+// aactualizarPedido
+// eslint-disable-next-line no-empty-pattern
+const actualizarPedido = async (_, { id, input }, ctx) => {
+  try {
+    const { cliente, pedido } = input;
+
+    // Si el pedido existe
+    const existePedido = await Pedido.findById(id);
+    if (!existePedido) throw new GraphQLError('Pedido no encontrado');
+
+    // Si el cliente existe
+    const existeCliente = await Cliente.findById(cliente);
+    if (!existeCliente) throw new GraphQLError('Cliente no encontrado');
+
+    // Si el cliente y pedido pertenece al vendedor
+    if (existeCliente.vendedor.toString() !== ctx.usuario.id) {
+      throw new GraphQLError('No tienes las credenciales');
+    }
+
+    // Revisar el stock
+    for await (const articulo of pedido) {
+      const { id } = articulo;
+
+      const producto = await Producto.findById(id);
+
+      if (articulo.cantidad > producto.existencia) {
+        throw new GraphQLError(
+          `El articulo ${producto.nombre} excede la cantidad disponible`,
+        );
+      }
+
+      // Restar la cantidad a lo disponible
+      producto.existencia = producto.existencia - articulo.cantidad;
+      await producto.save();
+    }
+
+    // Guardar el pedido
+    const pedidoActualizado = await Pedido.findOneAndUpdate(
+      { _id: id },
+      input,
+      { new: true },
+    );
+
+    return pedidoActualizado;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError(
+      'No se pudo actualizar el pedido. Error en la base de datos: ' +
+        error.message,
+    );
+  }
+};
+
+const mutations = {
+  nuevoPedido,
+  actualizarPedido,
+};
+
+const queries = {
+  obtenerPedidos,
+  obtenerPedidosVendedor,
+  obtenerPedido,
+};
+
+export { mutations, queries };

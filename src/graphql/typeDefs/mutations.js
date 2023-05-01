@@ -13,6 +13,7 @@ const mutations = `#graphql
     eliminarCliente(id: ID!): String
     # Pedidos
     nuevoPedido(input: PedidoInput): Pedido
+    actualizarPedido(id: ID!, input: PedidoInput): Pedido
   }
 `;
 

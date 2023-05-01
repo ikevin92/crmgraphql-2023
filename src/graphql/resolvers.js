@@ -1,57 +1,44 @@
 import {
-  nuevoProducto,
-  obtenerProductos,
-  obtenerProducto,
-  actualizarProducto,
-  eliminarProducto,
+  mutations as mutationProducto,
+  queries as queryProducto,
 } from '../controllers/producto.js';
 
 import {
-  crearUsuario,
-  autenticarUsuario,
-  obtenerUsuario,
+  mutations as mutationUsuario,
+  queries as queryUsuario,
 } from '../controllers/usuario.js';
 
 import {
-  nuevoCliente,
-  obtenerClientes,
-  obtenerClientesVendedor,
-  obtenerCliente,
-  actualizarCliente,
-  eliminarCliente,
+  mutations as mutationCiente,
+  queries as queryCliente,
 } from '../controllers/cliente.js';
 
-import { nuevoPedido, obtenerPedidos } from '../controllers/pedido.js';
+import {
+  mutations as mutationPedido,
+  queries as queryPedido,
+} from '../controllers/pedido.js';
 
 // resolvers
 const resolvers = {
   Query: {
     // Usuarios
-    obtenerUsuario,
+    ...queryUsuario,
     //Productos
-    obtenerProductos,
-    obtenerProducto,
+    ...queryProducto,
     // Clientes
-    obtenerClientes,
-    obtenerClientesVendedor,
-    obtenerCliente,
+    ...queryCliente,
     // Pedidos
-    obtenerPedidos,
+    ...queryPedido,
   },
   Mutation: {
     //Usuario
-    crearUsuario,
-    autenticarUsuario,
+    ...mutationUsuario,
     //Producto
-    nuevoProducto,
-    actualizarProducto,
-    eliminarProducto,
+    ...mutationProducto,
     //Cliente
-    nuevoCliente,
-    actualizarCliente,
-    eliminarCliente,
+    ...mutationCiente,
     // Pedido
-    nuevoPedido,
+    ...mutationPedido,
   },
 };
 
