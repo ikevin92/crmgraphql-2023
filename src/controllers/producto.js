@@ -18,7 +18,7 @@ const nuevoProducto = async (_, { input }) => {
 
 const obtenerProductos = async () => {
   try {
-    const productos = await find({});
+    const productos = await Producto.find({});
 
     return productos;
   } catch (error) {
