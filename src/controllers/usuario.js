@@ -13,8 +13,8 @@ const crearUsuario = async (_, { input }) => {
 
     // revisar si el usuario ya esta registrado
     const existeUsuario = await Usuario.findOne({ email });
-    if (existeUsuario)
-      throw new GraphQLError('El usuario esta registrado en la base de datos');
+
+    if (existeUsuario) throw new GraphQLError('El usuario ya esta registrado ');
 
     // Hash  password
     const salt = await genSalt(10);
@@ -27,7 +27,7 @@ const crearUsuario = async (_, { input }) => {
     return usuario;
   } catch (error) {
     console.log(error);
-    throw new GraphQLError('Ocurrió un error', error);
+    throw new GraphQLError(error);
   }
 };
 
@@ -68,7 +68,7 @@ const obtenerUsuario = async (_, { token }) => {
     return usuario;
   } catch (error) {
     console.log(error);
-    throw new GraphQLError('Ocurrió un error');
+    throw new GraphQLError(error);
   }
 };
 
